@@ -1,59 +1,105 @@
-public class Character {
+package assignments.character;
 
-    // TODO: private талбаруудыг зарлана уу
-    // - name (String)
-    // - hp (int)
-    // - maxHp (int)
-    // - mp (int)
-    // - maxMp (int)
-    // - gold (int)
+import java.util.Random;
+
+public class Character {
+    // --- Private Fields ---
+    private String name;
+    private int hp;
+    private int maxHp;
+    private int mp;
+    private int maxMp;
+    private int gold;
 
     // ─────── 🟢 Core (60 оноо) ───────
 
-    // TODO: Constructor 1 — public Character(String name)
-    // - this(name, 100, 50)-г эхний мөрөнд дуудна (chaining)
-    // - Өөр юу ч хийх шаардлагагүй
+    // Constructor 1: this(...) chaining ашиглах
+    public Character(String name) {
+        this(name, 100, 50);
+    }
 
-    // TODO: Constructor 2 — public Character(String name, int hp, int mp)
-    // - name, hp, mp-ийг параметрээс талбарт онооно
-    // - maxHp = hp, maxMp = mp
-    // - gold = 0
+    // Constructor 2: Үндсэн байгуулагч
+    public Character(String name, int hp, int mp) {
+        this.name = name;
+        this.hp = hp;
+        this.maxHp = hp;
+        this.mp = mp;
+        this.maxMp = mp;
+        this.gold = 0;
+    }
 
-    // TODO: Constructor 3 (copy) — public Character(Character other)
-    // - other объектын бүх талбарыг хуулна
-    // - Жишээ: this.name = other.name; this.hp = other.hp; ...
+    // Constructor 3: Copy Constructor
+    public Character(Character other) {
+        this.name = other.name;
+        this.hp = other.hp;
+        this.maxHp = other.maxHp;
+        this.mp = other.mp;
+        this.maxMp = other.maxMp;
+        this.gold = other.gold;
+    }
 
-    // TODO: getName() → String
+    // Getter-үүд
+    public String getName() { return name; }
+    public int getHp() { return hp; }
+    public int getMaxHp() { return maxHp; }
+    public int getMp() { return mp; }
+    public int getMaxMp() { return maxMp; }
+    public int getGold() { return gold; }
 
-    // TODO: getHp() → int
-
-    // TODO: getMaxHp() → int
-
-    // TODO: getMp() → int
-
-    // TODO: getMaxMp() → int
-
-    // TODO: getGold() → int
+    // Bonus-т зориулсан setter
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
 
     // ─────── 🟡 Stretch (30 оноо) ───────
 
-    // TODO: public static Character createWarrior(String name)
-    // - new Character(name, 150, 20) буцаана
+    public static Character createWarrior(String name) {
+        return new Character(name, 150, 20);
+    }
 
-    // TODO: public static Character createMage(String name)
-    // - new Character(name, 80, 120) буцаана
+    public static Character createMage(String name) {
+        return new Character(name, 80, 120);
+    }
 
-    // TODO: public static Character random(String name)
-    // - java.util.Random ашиглан:
-    //   hp — 50..150 (хоёр талдаа оролцоно)
-    //   mp — 20..100 (хоёр талдаа оролцоно)
-    // - new Character(name, hp, mp) буцаана
+    public static Character random(String name) {
+        Random rand = new Random();
+        int randomHp = rand.nextInt(101) + 50;  // 50..150
+        int randomMp = rand.nextInt(81) + 20;   // 20..100
+        return new Character(name, randomHp, randomMp);
+    }
 }
 
 // ─────── 🔴 Bonus (10 оноо) ───────
 
-// TODO: class CharacterBuilder { ... }
-// - Fluent builder: .name(String), .hp(int), .mp(int), .gold(int)
-// - Тус бүр нь this-ийг буцаана
-// - build() нь Character объект буцаана
-// - Анхны утга: name="Hero", hp=100, mp=50, gold=0
+class CharacterBuilder {
+    private String name = "Hero";
+    private int hp = 100;
+    private int mp = 50;
+    private int gold = 0;
+
+    public CharacterBuilder name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public CharacterBuilder hp(int hp) {
+        this.hp = hp;
+        return this;
+    }
+
+    public CharacterBuilder mp(int mp) {
+        this.mp = mp;
+        return this;
+    }
+
+    public CharacterBuilder gold(int gold) {
+        this.gold = gold;
+        return this;
+    }
+
+    public Character build() {
+        Character c = new Character(this.name, this.hp, this.mp);
+        c.setGold(this.gold);
+        return c;
+    }
+}
