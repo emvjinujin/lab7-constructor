@@ -1,9 +1,6 @@
-package assignments.character;
-
 import java.util.Random;
 
 public class Character {
-    // --- Private Fields ---
     private String name;
     private int hp;
     private int maxHp;
@@ -11,9 +8,7 @@ public class Character {
     private int maxMp;
     private int gold;
 
-    // ─────── 🟢 Core (60 оноо) ───────
-
-    // Constructor 1: this(...) chaining ашиглах
+    // Constructor 1: Chaining
     public Character(String name) {
         this(name, 100, 50);
     }
@@ -46,13 +41,9 @@ public class Character {
     public int getMaxMp() { return maxMp; }
     public int getGold() { return gold; }
 
-    // Bonus-т зориулсан setter
-    public void setGold(int gold) {
-        this.gold = gold;
-    }
+    public void setGold(int gold) { this.gold = gold; }
 
-    // ─────── 🟡 Stretch (30 оноо) ───────
-
+    // Static Factory Methods
     public static Character createWarrior(String name) {
         return new Character(name, 150, 20);
     }
@@ -63,43 +54,42 @@ public class Character {
 
     public static Character random(String name) {
         Random rand = new Random();
-        int randomHp = rand.nextInt(101) + 50;  // 50..150
-        int randomMp = rand.nextInt(81) + 20;   // 20..100
+        int randomHp = rand.nextInt(101) + 50;
+        int randomMp = rand.nextInt(81) + 20;
         return new Character(name, randomHp, randomMp);
     }
-}
 
-// ─────── 🔴 Bonus (10 оноо) ───────
+    // 🔴 BONUS: Builder-ийг дотор нь static байдлаар зарлах
+    public static class CharacterBuilder {
+        private String name = "Hero";
+        private int hp = 100;
+        private int mp = 50;
+        private int gold = 0;
 
-class CharacterBuilder {
-    private String name = "Hero";
-    private int hp = 100;
-    private int mp = 50;
-    private int gold = 0;
+        public CharacterBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
 
-    public CharacterBuilder name(String name) {
-        this.name = name;
-        return this;
-    }
+        public CharacterBuilder hp(int hp) {
+            this.hp = hp;
+            return this;
+        }
 
-    public CharacterBuilder hp(int hp) {
-        this.hp = hp;
-        return this;
-    }
+        public CharacterBuilder mp(int mp) {
+            this.mp = mp;
+            return this;
+        }
 
-    public CharacterBuilder mp(int mp) {
-        this.mp = mp;
-        return this;
-    }
+        public CharacterBuilder gold(int gold) {
+            this.gold = gold;
+            return this;
+        }
 
-    public CharacterBuilder gold(int gold) {
-        this.gold = gold;
-        return this;
-    }
-
-    public Character build() {
-        Character c = new Character(this.name, this.hp, this.mp);
-        c.setGold(this.gold);
-        return c;
+        public Character build() {
+            Character c = new Character(this.name, this.hp, this.mp);
+            c.setGold(this.gold);
+            return c;
+        }
     }
 }
